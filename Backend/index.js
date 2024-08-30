@@ -57,7 +57,7 @@ app.put('/api/posts/:id', (req, res) => {
     if (!post) {
       return res.status(404).json({ error: 'Post not found' });
     }
-    res.json(updatePost(req.body))
+    res.json(updatePost(post, req.body))
   }); 
 //delete posts
 app.delete('/api/posts/:id',(req,res)=>{
@@ -73,8 +73,8 @@ const findPost = (id)=>{
     return posts.find(p=>p.id === parseInt(id));
 }
 
-const updatePost = (post)=>{
-    const { title, content, author } = post;
+const updatePost = (post, newData)=>{
+    const { title, content, author } = newData;
     if (title) post.title = title;
     if (content) post.content = content;
     if (author) post.author = author;
