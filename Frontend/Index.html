@@ -10,25 +10,53 @@
     
     <!-- Load custom scripts after Angular.js -->
     <script src="app.js"></script>
+    <link rel="stylesheet" href="/Frontend/app.css">
+    
 </head>
 <body ng-controller="BlogController">
 
     <h1>Simple Blog</h1>
-    
-    
-    <h2>Create new Post</h2>
-    <form ng-submit="createPost()">
-        <input type="text" ng-model="newPost.title" placeholder="Title" required>
-        <input type="text" ng-model="newPost.content" placeholder="Content" required>
-        <input type="text" ng-model="newPost.author" placeholder="Author">
-        <button type="submit">Create Post</button>
-    </form>
+
+    <div class="form-container">
+        <h2>{{selectedPost ? 'Edit Post' : 'Create New Post'}}</h2>
+        <form ng-submit="selectedPost ? updatePost() : createPost()">
+            <label for="title">Title</label>
+            <input type="text" id="title" ng-model="newPost.title" placeholder="Title" required>
+            
+            <label for="content">Content</label>
+            <textarea id="content" ng-model="newPost.content" placeholder="Content" required></textarea>
+            
+            <label for="author">Author</label>
+            <input type="text" id="author" ng-model="newPost.author" placeholder="Author">
+            
+            <button type="submit" class="btn btn-primary">{{selectedPost ? 'Update Post' : 'Create Post'}}</button>
+            <button type="button" class="btn btn-secondary" ng-if="selectedPost" ng-click="resetForm()">Cancel</button>
+        </form>
+    </div>
 
     <h2>Posts</h2>
-    <div ng-repeat="post in posts">
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.content }}</p>
-        <small>{{ post.author }} - {{ post.created_at }}</small><br>
-      </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Author</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="post in posts" ng-click="selectPost(post)" ng-class="{selected: selectedPost && selectedPost.id === post.id}">
+                <td>{{ post.title }}</td>
+                <td>{{ post.content.length > 50 ? (post.content | limitTo: 50) + '...' : post.content }}</td>
+                <td>{{ post.author }}</td>
+                <td>{{ post.created_at }}</td>
+                <td>
+                    <button ng-click="deletePost(post.id); $event.stopPropagation()" ng-class="btn_danger">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+        
+    </table>
 </body>
 </html>
