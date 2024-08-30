@@ -26,7 +26,7 @@ app.post('/api/posts',(req,res)=>{
         title,
         content,
         author,
-        created_at: new Date().now
+        created_at: new Date().toLocaleDateString()
     }
     
     posts.push(newPost);
