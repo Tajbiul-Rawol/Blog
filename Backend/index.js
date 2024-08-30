@@ -1,28 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const app = express();
 const PORT = 3000;
 
 
 app.use(bodyParser.json());
 
+// Enable CORS for all origins
+app.use(cors())
 //in memory data storage
 let posts = [];
 let currentId = 1;
 
 // Create a new blog post
 app.post('/api/posts',(req,res)=>{
-    const {id,title,content,author,created_at} = req.body;
-    if (!title || !id || !author ) {
+    const {title,content,author,created_at} = req.body;
+    if (!title || !author ) {
         return res.status(400).json({error:`Data cannot be empty ${req.body}`})
     }
-
-    // Check if a post with the same ID already exists
-    const existingPost = findPost(id);
-    if (existingPost) {
-        return res.status(400).json({ error: `A post with ID ${id} already exists.` });
-    }
-
 
     const newPost = {
         id: currentId++,
@@ -31,6 +28,7 @@ app.post('/api/posts',(req,res)=>{
         author,
         created_at: new Date().now
     }
+    
     posts.push(newPost);
     res.status(201).json({ message: 'Post created', data: newPost });
 })
