@@ -1,8 +1,9 @@
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 h1 {
@@ -12,7 +13,7 @@ h1 {
 
 .form-container {
     background-color: #fff;
-    padding: 20px;
+    padding: 50px;
     margin: 0 auto;
     border-radius: 5px;
     max-width: 500px;
@@ -115,4 +116,67 @@ table tr button {
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s
+}
+
+
+
+.top-bar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.container {
+    display: flex;
+    margin-top: 50px; /* Adjust based on the height of the top bar */
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50px; /* Adjust based on the height of the top bar */
+    bottom: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding-top: 30px;
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.content {
+    flex: 1;
+    padding: 4em;
+    margin-left: 200px; /* Adjust based on the width of the sidebar */
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 2980px;
+    }
 }
