@@ -4,7 +4,7 @@ app.controller('ViewPostsController', function($scope, $http) {
 
     $scope.fetchPosts = function() {
         $http.get(`${BASE_URL}/api/posts`).then(response => {
-            $scope.posts = response.data;
+            $scope.posts = response.data.sort((a, b) => b.id - a.id);
         });
     };
 
