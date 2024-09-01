@@ -14,3 +14,18 @@
         <button type="submit" class="btn btn-primary">Create Post</button>
     </form>
 </div>
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed" style="top: 10px; right: 10px; z-index: 1050;">
+    <div id="createToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="toast-header">
+            <strong class="mr-auto">Notification</strong>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Post created successfully!
+        </div>
+    </div>
+</div>
