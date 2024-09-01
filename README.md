@@ -1,13 +1,17 @@
-Dockerization of Blog Project
-Overview
-The project consists of:
+# Dockerization of Blog Application
 
-Frontend: An AngularJS application served using Live Server.
-Backend: A Node.js API service.
-Database: A PostgreSQL instance.
-Directory Structure
-go
-Copy code
+This project consists of a Node.js API backend, an AngularJS frontend, and a PostgreSQL database. This guide will walk you through the steps to Dockerize and run the entire application using Docker Compose.
+
+## Prerequisites
+
+- Docker installed on your machine
+- Docker Compose installed
+
+## Project Structure
+
+The project is organized as follows:
+
+
 Blog
 │
 ├── Backend
@@ -24,54 +28,43 @@ Blog
 │   └── other files...
 │
 └── docker-compose.yml
-1. Dockerizing the Backend
-Dockerfile for Backend (Node.js API)
 
-Create a Dockerfile in the Backend directory with the following content:
 
-dockerfile
-Copy code
+
+## Docker Setup
+
+### 1. Dockerfiles
+
+#### Backend (`Backend/Dockerfile`)
+
+```Dockerfile
 # Use the official Node.js image as the base image
 FROM node:22
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy all files into the container
+COPY . /usr/src/app/
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
-COPY . .
-
-# Expose the port the app runs on
+# Expose the port the API will run on
 EXPOSE 3000
 
-# Command to run the application
+# Command to run the API
 CMD ["node", "app.js"]
-Build and Run the Docker container for the backend using Docker Compose:
 
-bash
-Copy code
-docker-compose build
-docker-compose up
-2. Dockerizing the Frontend
-Dockerfile for Frontend (AngularJS)
-
-Create a Dockerfile in the Frontend directory with the following content:
-
-dockerfile
-Copy code
+Frontend (Frontend/Dockerfile)
 # Use the official Node.js image as the base image
 FROM node:22
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy the project files into the container
-COPY . .
+# Copy all the project files into the container
+COPY . /usr/src/app/
 
 # Install Live Server globally
 RUN npm install -g live-server
@@ -80,40 +73,11 @@ RUN npm install -g live-server
 EXPOSE 5500
 
 # Command to run Live Server
-CMD ["live-server", "--port=5500", "--no-browser", "--watch=."] 
-Build and Run the Docker container for the frontend using Docker Compose:
+CMD ["live-server", "--port=5500", "--no-browser", "--watch=."]
 
-bash
-Copy code
-docker-compose build
-docker-compose up
-3. Dockerizing the Database
-PostgreSQL Service in Docker Compose
 
-Configure the docker-compose.yml file to include the PostgreSQL service:
-
-yaml
-Copy code
-version: '3.8'
-
-services:
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: tajbiul_rawol
-      POSTGRES_PASSWORD: BlogApp123
-      POSTGRES_DB: BlogDB
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-4. Docker Compose Configuration
-Docker Compose File
-
-Create or update the docker-compose.yml file in the root directory:
-
-yaml
-Copy code
+2.Docker Compose Configuration
+The docker-compose.yml file orchestrates the services:
 version: '3.8'
 
 services:
@@ -153,41 +117,37 @@ services:
 
 volumes:
   db_data:
-5. Issues and Resolutions
-Issue 1: Frontend CSS Not Loading Properly
 
-Problem: CSS file was not applied, and the browser showed errors related to MIME types and file paths.
-Solution:
-Updated the link to the CSS file in index.html to href="./app.css".
-Ensured the CSS file path was correct and accessible.
-Issue 2: Docker Build Failed for Frontend
+3. Running the Application
+To build and run the Docker containers, follow these steps:
+docker-compose build
 
-Problem: Error related to missing Frontend/ directory during Docker build.
-Solution:
-Verified the path in the Dockerfile and adjusted COPY Frontend/ /usr/src/app/ to COPY . . for simplicity in the context.
-Issue 3: Version Warning in Docker Compose
-
-Problem: Warning about the obsolete version attribute in Docker Compose.
-Solution:
-Updated the Docker Compose file to remove the version attribute as it's no longer necessary.
-6. Final Deployment Steps
-Stop any running containers and remove them:
-
-bash
-Copy code
-docker-compose down
-Build the containers without using cache to ensure everything is up-to-date:
-
-bash
-Copy code
-docker-compose build --no-cache
-Start the containers:
-
-bash
-Copy code
+Start the Docker containers:
 docker-compose up
-Verify that all services are running correctly by visiting:
 
-Frontend: http://127.0.0.1:5500
-Backend: http://localhost:3000
-Database: Accessible internally by other services.
+You can also run the containers in detached mode:
+docker-compose up -d
+
+Access the Application:
+
+Frontend: http://localhost:5500
+API: http://localhost:3000/api/posts
+
+
+
+Stopping the Containers:
+
+To stop and remove the containers, networks, and volumes, run:
+docker-compose down
+
+4. Ignoring Unnecessary Files
+To optimize your Docker builds, add the following to your .dockerignore file:
+
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+coverage
+
+5. Running Tests (Optional)
+If your application includes tests, you can run them within the container or outside, depending on your setup. Make sure to update your Docker configuration if necessary.
