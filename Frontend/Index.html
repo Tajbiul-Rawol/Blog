@@ -2,61 +2,44 @@
 <html lang="en" ng-app="blogApp">
 <head>
     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog App</title>
-        
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
     <!-- Load Angular.js library first -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    
+    <!--for routing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.29/angular-ui-router.min.js"></script>
+
     <!-- Load custom scripts after Angular.js -->
     <script src="app.js"></script>
+    <script src="controllers/CreatePostController.js"></script>
+    <script src="controllers/ViewPostsController.js"></script>
+    <!-- <base href="/"> -->
     <link rel="stylesheet" href="/Frontend/app.css">
     
 </head>
-<body ng-controller="BlogController">
+<body>
 
-    <h1>Simple Blog</h1>
+    <header class="top-bar">
+        <h1>Blog Application</h1>
+    </header>
+    
+    <div class="container">
+        <nav class="sidebar">
+            <ul>
+                <li><a ui-sref="createPost">Create Post</a></li>
+                <li><a ui-sref="viewPosts">View Posts</a></li>  
+            </ul>
+        </nav>
 
-    <div class="form-container">
-        <h2>{{selectedPost ? 'Edit Post' : 'Create New Post'}}</h2>
-        <form ng-submit="selectedPost ? updatePost() : createPost()">
-            <label for="title">Title</label>
-            <input type="text" id="title" ng-model="newPost.title" placeholder="Title" required>
-            
-            <label for="content">Content</label>
-            <textarea id="content" ng-model="newPost.content" placeholder="Content" required></textarea>
-            
-            <label for="author">Author</label>
-            <input type="text" id="author" ng-model="newPost.author" placeholder="Author">
-            
-            <button type="submit" class="btn btn-primary">{{selectedPost ? 'Update Post' : 'Create Post'}}</button>
-            <button type="button" class="btn btn-secondary" ng-if="selectedPost" ng-click="resetForm()">Cancel</button>
-        </form>
+        <div class="content" ui-view></div>
     </div>
+    
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-    <h2>Posts</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Author</th>
-                <th>Created At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="post in posts" ng-click="selectPost(post)" ng-class="{selected: selectedPost && selectedPost.id === post.id}">
-                <td>{{ post.title }}</td>
-                <td>{{ post.content.length > 50 ? (post.content | limitTo: 50) + '...' : post.content }}</td>
-                <td>{{ post.author }}</td>
-                <td>{{ post.created_at }}</td>
-                <td>
-                    <button ng-click="deletePost(post.id); $event.stopPropagation()" ng-class="btn_danger">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-        
-    </table>
 </body>
 </html>
