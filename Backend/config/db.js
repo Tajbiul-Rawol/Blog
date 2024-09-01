@@ -28,9 +28,22 @@ CREATE TABLE IF NOT EXISTS posts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`;
 
+// Create the table if it doesn't exist
+const createLogTableQuery = `
+CREATE TABLE IF NOT EXISTS Logs (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    action VARCHAR(255),
+    details TEXT,
+    username VARCHAR(255)
+)`;
+
 pool.query(createTableQuery)
     .then(() => console.log('Table created successfully'))
     .catch(err => console.error('Error creating table:', err));
 
+pool.query(createLogTableQuery)
+    .then(() => console.log('Table created successfully'))
+    .catch(err => console.error('Error creating table:', err));
 
 export default pool;

@@ -1,11 +1,17 @@
 import PostModel from '../services/postService.js';
+import LogModel from '../services/logginService.js';
 
 const PostController = {
     createPost: async (req, res) => {
         try {
             const newPost = await PostModel.create(req.body);
+            const logResult = await LogModel.log('Create Post', `Post created with title: ${req.body.title}`, req.body.author);
+            if(!logResult){
+                res.status(400).json({ error: err.message });
+            }
             res.status(201).json({ message: 'Post created', data: newPost });
         } catch (err) {
+            const result = await LogModel.log('Error', err, req.body.author);
             res.status(400).json({ error: err.message });
         }
     },
@@ -38,11 +44,18 @@ const PostController = {
             }
 
             const updatedPost = await PostModel.update(req.params.id, req.body);
+            
+            const logResult = await LogModel.log('Update Post', `Post updated with title: ${req.body.title}`, req.body.author);
+            if(!logResult){
+                res.status(400).json({ error: err.message });
+            }
+
             if (!updatedPost) {
                 return res.status(400).json({ error: 'Failed to update the post' });
             }
             res.status(200).json(updatedPost);
         } catch (err) {
+            const result = await LogModel.log('Error', err, req.body.author);
             res.status(400).json({ error: err.message });
         }
     },
