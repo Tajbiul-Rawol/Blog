@@ -11,10 +11,11 @@ app.controller('ViewPostsController', function($scope, $http) {
     $scope.deletePost = function(id) {
         if(confirm('Are you sure you want to delete this post?')) {
             $http.delete(`${BASE_URL}/api/posts/${id}`).then(response => {
-            showToast(response.data, 'danger');
+                $('#actionToast .toast-body').text('Post deleted successfully!');
+                $('#actionToast').toast('show');
                 $scope.posts = $scope.posts.filter(p => p.id !== id);
             }).catch(error => {
-                $('#actionToast .toast-body').text('Post deleted successfully!');
+                $('#actionToast .toast-body').text('Could not delete post!');
                 $('#actionToast').toast('show');
             });
         }
