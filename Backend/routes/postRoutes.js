@@ -1,6 +1,9 @@
-const express = require('express');
+import express from 'express';
+import PostController from '../controllers/postController.js';
+
+
+
 const router = express.Router();
-const PostController = require('../controllers/postController');
 
 
 // Create a new post
@@ -18,4 +21,4 @@ router.put('/posts/:id', PostController.updatePost);
 // Delete a post by id
 router.delete('/posts/:id', PostController.deletePost);
 
-module.exports = router;
+export default router;

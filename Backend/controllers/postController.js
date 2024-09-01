@@ -1,4 +1,4 @@
-const PostModel = require('../services/postService');
+import PostModel from '../services/postService.js';
 
 const PostController = {
     createPost: async (req, res) => {
@@ -38,7 +38,10 @@ const PostController = {
             }
 
             const updatedPost = await PostModel.update(req.params.id, req.body);
-            res.json(updatedPost);
+            if (!updatedPost) {
+                return res.status(400).json({ error: 'Failed to update the post' });
+            }
+            res.status(200).json(updatedPost);
         } catch (err) {
             res.status(400).json({ error: err.message });
         }
@@ -51,12 +54,18 @@ const PostController = {
                 return res.status(404).json({ error: 'Post not found' });
             }
 
-            await PostModel.delete(req.params.id);
-            res.status(204).send("Post deleted");
+            const deletedPost = await PostModel.delete(req.params.id);
+
+            if (!deletedPost) {
+                return res.status(404).json({ error: 'Deletion unsuccessful' }); // Ensure correct response if no post was deleted
+            }
+
+            res.status(200).send("Post deleted successfully");
         } catch (err) {
             res.status(400).json({ error: err.message });
         }
     }
 }
 
-module.exports = PostController;
+
+export default PostController;
