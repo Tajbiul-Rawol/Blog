@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "test": "karma start"
+  },
+  "devDependencies": {
+    "angular": "^1.8.2",
+    "angular-mocks": "^1.8.2",
+    "jasmine-core": "^5.2.0",
+    "karma": "^6.4.4",
+    "karma-angular": "^0.0.6",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.1",
+    "karma-jasmine": "^5.1.0"
+  },
+  "dependencies": {
+    "angular-ui-router": "^1.0.29"
+  }
+}
