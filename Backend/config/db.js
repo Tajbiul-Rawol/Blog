@@ -1,5 +1,10 @@
-const { Pool } = require('pg');
-require('dotenv').config();
+import pkg from 'pg'; // Import the entire module as 'pkg'
+const { Pool } = pkg;
+
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 
 const pool = new Pool({
     user: process.env.DB_USER, // replace with your PostgreSQL username
@@ -27,4 +32,5 @@ pool.query(createTableQuery)
     .then(() => console.log('Table created successfully'))
     .catch(err => console.error('Error creating table:', err));
 
-module.exports = pool;
+
+export default pool;

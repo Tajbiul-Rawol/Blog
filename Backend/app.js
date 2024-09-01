@@ -1,10 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const postRoutes = require('./routes/postRoutes');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import postRoutes from './routes/postRoutes.js';
+import dotenv from 'dotenv';
 
 const app = express();
-const PORT = 3000;
 
 
 app.use(bodyParser.json());
@@ -16,6 +16,12 @@ app.use(cors())
 // Use post routes
 app.use('/api', postRoutes);
 
-app.listen(PORT,()=>{
-    console.log(`Server running on http://localhost:${PORT}`);
-})
+
+if (process.env.NODE_ENV !== 'test') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
+export default app;
