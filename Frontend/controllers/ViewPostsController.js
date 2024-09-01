@@ -37,7 +37,7 @@ app.controller('ViewPostsController', function($scope, $http) {
         $http.put(`${BASE_URL}/api/posts/${$scope.selectedPost.id}`, $scope.selectedPost).then(response => {
             const index = $scope.posts.findIndex(p => p.id === $scope.selectedPost.id);
             $scope.posts[index] = response.data;
-            $scope.resetForm(); // Reset the form
+            $('#updateModal').modal('hide');
         }).catch(error => {
             alert('Error updating post: ' + error.data.error);
         });
