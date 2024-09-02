@@ -1,6 +1,8 @@
 app.controller('ViewPostsController', function($scope, $http) {
     $scope.posts = [];
     $scope.selectedPost = {};
+    $scope.searchQuery = '';
+
 
     $scope.fetchPosts = function() {
         $http.get(`${BASE_URL}/api/posts`).then(response => {
@@ -20,6 +22,19 @@ app.controller('ViewPostsController', function($scope, $http) {
             });
         }
     };
+
+    $scope.SearchPost = (query)=>{
+
+        if (!$scope.searchQuery) {
+            return;
+        }
+         // Construct the query parameter
+         const queryParam = encodeURIComponent($scope.searchQuery);
+        console.log($scope.searchQuery);
+        $http.get(`${BASE_URL}/api/posts?searchString=${queryParam}`).then(response => {
+            $scope.posts = response.data.sort((a, b) => b.id - a.id);
+        });
+    }
 
     // Update an existing post
     $scope.selectPost = function(post) {
