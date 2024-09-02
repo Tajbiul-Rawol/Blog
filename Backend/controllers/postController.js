@@ -26,13 +26,22 @@ const PostController = {
             res.status(400).json({ error: err.message });
         }
     },
-
+    
     getAllPosts: async (req, res) => {
+        console.log('get all post invoked');
+        const {searchString} = req.query;
         try {
-            const posts = await PostModel.findAll();
-            res.status(200).json(posts);
+            if (searchString) {
+                const posts = await PostModel.findByQuery(searchString);
+                if (!posts) {
+                    return res.status(400).json({ error: err.message });
+                }
+                return res.status(200).json(posts);
+            }
+            const allPosts = await PostModel.findAll();
+            return res.status(200).json(allPosts);
         } catch (err) {
-            res.status(400).json({ error: err.message });
+            return res.status(400).json({ error: err.message });
         }
     },
 

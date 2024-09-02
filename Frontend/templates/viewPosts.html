@@ -1,6 +1,10 @@
 <!-- templates/viewPosts.html -->
 <div>
     <h2>Posts</h2>
+    <div class="form-inline">
+      <input type="text" class="form-control w-0"placeholder="search" ng-model="searchQuery">
+    <button type="button" ng-click="SearchPost(searchQuery)" class="btn-primary mt-3 w-20 h-20 border border-primary pb-0 mb-3 p-1 ml-4 rounded-sm">search</button>
+    </div>
     <table>
         <thead>
             <tr>
@@ -13,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="post in posts" ng-click="selectPost(post)" ng-class="{selected: selectedPost && selectedPost.id === post.id}">
+            <tr ng-repeat="post in posts" ng-click="selectPost(e)" ng-class="{selected: selectedPost && selectedPost.id === post.id}">
                 <td>{{ post.title }}</td>
                 <td>{{ post.content.length > 50 ? (post.content | limitTo: 50) + '...' : post.content }}</td>
                 <td>{{ post.author }}</td>

@@ -18,6 +18,21 @@ const PostModel = {
         return result.rows[0];
     },
 
+    findByQuery: async(query)=>{
+        try {
+            const searchQuery = `%${query}%`;
+            const result = await pool.query(`SELECT id, 
+                                                title, 
+                                                content, 
+                                                author, created_at
+                                            FROM posts 
+                                            WHERE author ILIKE $1`, [searchQuery]);
+            return result.rows; // Return all matching rows           
+        } catch (error) {
+            console.error('Error executing query:', error); // Log the error
+        }       
+    },
+
     findAll: async () => {
         const result = await pool.query(`
             SELECT 

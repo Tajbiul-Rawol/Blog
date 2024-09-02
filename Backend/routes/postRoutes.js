@@ -12,6 +12,7 @@ router.post('/posts', PostController.createPost);
 // Get a single post by id
 router.get('/posts/:id', PostController.getPostById);
 
+
 // Get all posts
 router.get('/posts', PostController.getAllPosts);
 
