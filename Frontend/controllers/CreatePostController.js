@@ -1,4 +1,4 @@
-app.controller('CreatePostController', function($scope, $http) {
+app.controller('CreatePostController', function($scope, $http,BASE_URL) {
     $scope.newPost = {};
 
     $scope.createPost = function() {

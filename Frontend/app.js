@@ -1,6 +1,8 @@
-const app = angular.module('blogApp', ['ui.router']);
+const app = angular.module('blogApp', ['ui.router'])
+//add the Base URL dynamically
+    .constant('BASE_URL', 'http://localhost:3000');
 
-const BASE_URL = 'http://localhost:3000';
+// .constant('BASE_URL', 'http://localhost:3000');
 
 // Configure routes
 app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
@@ -15,6 +17,11 @@ app.config(function($stateProvider, $urlRouterProvider,$locationProvider) {
         .state('viewPosts', {
             url: '/viewPosts',
             templateUrl: 'templates/viewPosts.html',
+            controller: 'ViewPostsController'
+        })
+        .state('viewPost', {
+            url: '/viewPost/:id',
+            templateUrl: 'templates/viewPost.html',
             controller: 'ViewPostsController'
         });
         

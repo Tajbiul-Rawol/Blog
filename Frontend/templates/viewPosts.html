@@ -22,7 +22,7 @@
                 <td>{{ post.content.length > 50 ? (post.content | limitTo: 50) + '...' : post.content }}</td>
                 <td>{{ post.author }}</td>
                 <td>{{ post.created_at }}</td>
-                <td></td>
+                <td><a href="" ng-click="openPost(post, $event)">{{$BASE_URL}}/post.html?id={{post.id}}</a></td>
                 <td>
                     <button ng-click="openModal(post); $event.stopPropagation()" class="btn btn-secondary">Edit</button>
                     <button ng-click="deletePost(post.id); $event.stopPropagation()" class="btn btn-danger">Delete</button>
