@@ -1,4 +1,4 @@
-app.controller('ViewPostsController', function($scope, $http) {
+app.controller('ViewPostsController', function($scope, $http, BASE_URL) {
     $scope.posts = [];
     $scope.selectedPost = {};
     $scope.searchQuery = '';
@@ -46,6 +46,13 @@ app.controller('ViewPostsController', function($scope, $http) {
         $scope.selectPost(post);
         $('#updateModal').modal('show');
     };
+
+    $scope.openPost = function(post,event){
+        console.log(post);
+        event.preventDefault();
+         // Perform your custom action here, such as redirecting
+        window.location.href = `${BASE_URL}/post.html?id=${post.id}`;
+    }
 
     $scope.updatePost = function () {
         
